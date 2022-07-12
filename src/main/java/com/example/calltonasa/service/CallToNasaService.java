@@ -2,7 +2,7 @@ package com.example.calltonasa.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,6 +18,9 @@ public class CallToNasaService {
     private static final String BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos";
     private static final String API_KEY = "DEMO_KEY";
     private RestTemplate restTemplate;
+
+
+    @Cacheable("largestPicture")
     public URI getLargestPicture(Integer sol, String apiKey) {
         Objects.requireNonNull(sol);
         var uri = UriComponentsBuilder.fromUriString(BASE_URL)
